@@ -1,0 +1,25 @@
+import netmiko
+from netmiko import ConnectHandler
+
+mikrotik_router = {
+'device_type': 'mikrotik_routeros',
+'host': '164.132.182.10',
+'port': '22',
+'username': 'admin',
+'password': 'admin123'
+}
+
+sshCli = ConnectHandler(**mikrotik_router)
+
+output = sshCli.send_command("/interface ethernet print")
+print(output)
+
+command = "/export"
+output = sshCli.send_command(command)
+print(output)
+
+file = open("BackUp-Config-Mikrotik-Netmiko.txt", "w")
+file.write(output)
+file.close()
+
+sshCli.disconnect()
